@@ -253,6 +253,20 @@ return res.status(200).json({
 status: true,
 data: response,
 });
+} else if (s === 'xvidsearch') { // XVIDSEARCH
+const response = await axios.get(`https://api.agatz.xyz/api/xvideo?message=${encodeURIComponent(text)}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'xnxxsearch') { // XNXXSEARCH
+const response = await axios.get(`https://api.agatz.xyz/api/xnxx?message=${encodeURIComponent(text)}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
 } else if (s === 'brat') { // BRAT
 const response = await axios.get(
 `https://api.siputzx.my.id/api/m/brat?text=${encodeURIComponent(text)}`,
@@ -300,6 +314,20 @@ res.send(response.data);
 } else if (s === 'blurimg') { // BLURIMG
 const response = await axios.get(
 `https://api.siputzx.my.id/api/m/blur?url=${url}`,
+{ responseType: 'arraybuffer' }
+);
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'beautiful') { // BEAUTIFUL
+const response = await axios.get(
+`https://api.siputzx.my.id/api/m/beautiful?url=${url}`,
+{ responseType: 'arraybuffer' }
+);
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'facepalm') { // FACEPALM
+const response = await axios.get(
+`https://api.siputzx.my.id/api/m/facepalm?url=${url}`,
 { responseType: 'arraybuffer' }
 );
 res.setHeader('Content-Type', 'image/png');
@@ -375,6 +403,20 @@ data: downloadResult,
 });
 } else if (s === 'twitter') { // TWITTER
 const response = await axios.get(`https://api.agatz.xyz/api/twitter?url=${url}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'xvideodl') { // XVIDEODL
+const response = await axios.get(`https://api.agatz.xyz/api/xvideodown?url=${url}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'xnxxdl') { // XNXXDL
+const response = await axios.get(`https://api.agatz.xyz/api/xnxxdown?url=${url}`
 );
 return res.status(200).json({
 status: true,
@@ -511,6 +553,48 @@ const originalUrl = url.replace('raw.githubusercontent.com', 'github.com').repla
 return res.status(200).json({
 status: true,
 result: originalUrl,
+});
+} else if (s === 'indonesia') { // INDONESIA
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/indonesia?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'china') { // CHINA
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/china?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'japan') { // JAPAN
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/japan?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'korea') { // KOREA
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/korea?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'thailand') { // THAILAND
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/thailand?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'vietnam') { // VIETNAM
+const apiUrl = `https://api.siputzx.my.id/api/r/cecan/vietnam?-`;
+const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'malaysia') { // MALAYSIA
+const response = await axios.get('https://api.agatz.xyz/api/malaysia');
+const imageUrl = response.data.data.url;
+const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/jpeg');
+res.send(imageResponse.data);
+} else if (s === 'asupan') { // ASUPAN
+const response = await axios.get('https://api.agatz.xyz/api/asupan');
+return res.status(200).json({
+status: true,
+url: response.data.data,
 });
 } else if (s === 'nsfw') { // NSFW
 const pe = await axios.get(`https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${encodeURIComponent(text)}&json=1`)
