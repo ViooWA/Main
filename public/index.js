@@ -34,17 +34,22 @@ function createCategorySection(categoryName) {
   return categorySection;
 }
 
-function redirectToEndpoint(endpoint, query) {
+function redirectToEndpoint(endpoint, query, method) {
   const fullUrl = `${endpoint}?${query}`;
-  console.log("Redirecting to:", fullUrl);
 
-  axios.get(fullUrl)
+  axios({
+    method: method.toLowerCase(),
+    url: fullUrl,
+  })
     .then((response) => {
-      alert(response.data.result);
+      if (response.data.redirectUrl) {
+        window.location.href = response.data.redirectUrl;
+      } else {
+        window.location.href = fullUrl;
+      }
     })
-    .catch((error) => {
-      console.error("Error calling API:", error);
-      alert("Failed to get response from the API.");
+    .catch(() => {
+      window.location.href = fullUrl;
     });
 }
 
@@ -58,16 +63,29 @@ categories.forEach((category) => {
     .filter((feature) => feature.category === category)
     .forEach((feature) => {
       const card = document.createElement("div");
-      card.classList.add("card", "p-4", "space-y-4");
+      card.classList.add(
+        "card",
+        "rounded-lg",
+        "shadow-md",
+        "p-4",
+        "hover:shadow-xl",
+        "transition-all",
+        "duration-300"
+      );
 
       card.innerHTML = `
-        <h3 class="font-semibold text-xl">${feature.name}</h3>
-        <p class="text-sm text-gray-400">${feature.description}</p>
-        <button onclick="redirectToEndpoint('${feature.endpoint}', '${feature.query}')" 
-          class="gradient-button p-2 rounded-md focus:outline-none hover:shadow-lg">
-          ${feature.method}
-        </button>
+        <h3 class="text-lg font-bold mb-2">${feature.name}</h3>
+        <p class="text-sm mb-4">${feature.description}</p>
+        <div class="button-container">
+          <button
+            class="py-2 px-4 rounded-lg gradient-button"
+            onclick="redirectToEndpoint('${feature.endpoint}', '${feature.query}', '${feature.method}')"
+          >
+            ${feature.method}
+          </button>
+        </div>
       `;
+
       categoryCards.appendChild(card);
     });
 
