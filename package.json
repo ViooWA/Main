@@ -9,7 +9,6 @@
   "dependencies": {
     "@vercel/node": "^2.0.0",
     "axios": "^1.7.7",
-    "cors": "^2.8.5",
-    "express": "^4.19.1"
+    "cheerio": "^1.0.0"
   }
 }
