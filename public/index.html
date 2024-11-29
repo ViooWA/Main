@@ -1,90 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Vioo</title>
-  <style>
-    /* CSS Langsung */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-      color: #333;
-    }
-
-    header {
-      text-align: center;
-      padding: 2rem;
-      background: #6200ea;
-      color: #fff;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-
-    header p {
-      font-size: 1.2rem;
-    }
-
-    main {
-      padding: 2rem;
-      text-align: center;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      background: #6200ea;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #3700b3;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #333;
-      color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Interface</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .api-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .api-header {
+            background-color: #f3f4f6;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .category-section {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        .category-section h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4B5563;
+        }
+        .category-cards {
+            margin-top: 10px;
+        }
+        .card {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .card button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        .card button:hover {
+            background-color: #2563eb;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>Welcome to Vioo</h1>
-    <p>Your Express API and static site are live!</p>
-  </header>
-  <main>
-    <section>
-      <h2>API Test</h2>
-      <button id="testApiBtn">Test API</button>
-      <p id="apiResponse">Click the button to test the API</p>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2024 Vioo. All rights reserved.</p>
-  </footer>
-  <script>
-    // JavaScript Langsung
-    document.getElementById('testApiBtn').addEventListener('click', async () => {
-      const responseElement = document.getElementById('apiResponse');
-      responseElement.textContent = 'Fetching API...';
+<body class="bg-gray-100 text-gray-900">
 
-      try {
-        const response = await fetch('../api/hello');
-        const data = await response.json();
-        responseElement.textContent = data.message;
-      } catch (error) {
-        responseElement.textContent = 'Error fetching API: ' + error.message;
-      }
+<div class="api-container">
+    <div class="api-header text-center">
+        <h1>API Interface</h1>
+        <p class="text-lg">Explore available API endpoints</p>
+    </div>
+
+    <div id="features"></div>
+</div>
+
+<script>
+    const features = [
+        {
+            name: "OpenAI",
+            method: "GET",
+            description: "AI/openai",
+            category: "AI",
+            endpoint: "../api/openai",
+            query: "text=Hello%20AI"
+        }
+    ];
+
+    const featureContainer = document.getElementById("features");
+
+    function createCategorySection(categoryName) {
+        const categorySection = document.createElement("div");
+        categorySection.classList.add("category-section");
+        categorySection.innerHTML = `<h2>${categoryName}</h2><div class="category-cards"></div>`;
+        return categorySection;
+    }
+
+    function redirectToEndpoint(endpoint, query) {
+        const fullUrl = `${endpoint}?${query}`;
+        console.log("Redirecting to:", fullUrl);
+        location.href = fullUrl;
+    }
+
+    const categories = [...new Set(features.map((feature) => feature.category))];
+    categories.forEach((category) => {
+        const categorySection = createCategorySection(category);
+        const categoryCards = categorySection.querySelector(".category-cards");
+
+        features
+            .filter((feature) => feature.category === category)
+            .forEach((feature) => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.innerHTML = `
+                    <h3 class="font-semibold">${feature.name}</h3>
+                    <p class="text-sm text-gray-500">${feature.description}</p>
+                    <button onclick="redirectToEndpoint('${feature.endpoint}', '${feature.query}')">
+                        ${feature.method}
+                    </button>
+                `;
+                categoryCards.appendChild(card);
+            });
+
+        featureContainer.appendChild(categorySection);
     });
-  </script>
+</script>
+
 </body>
-  </html>
+</html>
