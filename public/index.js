@@ -1,4 +1,3 @@
-document.getElementById("total-features").textContent = features.length;
 const menuToggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('menu');
 
@@ -522,6 +521,7 @@ const features = [
   }
 ];
 
+document.getElementById("total-features").textContent = features.length;
 function createCategorySection(categoryName) {
   const categorySection = document.createElement("div");
   categorySection.classList.add("p-6", "rounded-lg", "shadow-lg", "bg-gray-800");
