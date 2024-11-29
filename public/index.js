@@ -136,6 +136,22 @@ const features = [
     query: "s=mcpedl&text=Jenny"
   },
   {
+    name: "Xvideo-Search",
+    method: "GET",
+    description: "Search/xvidsearch",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=xvidsearch&text=Pussy"
+  },
+  {
+    name: "Xnxx-Search",
+    method: "GET",
+    description: "Search/xnxxsearch",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=xnxxsearch&text=Pussy"
+  },
+  {
     name: "Brat-Sticker",
     method: "GET",
     description: "Maker/brat",
@@ -182,6 +198,22 @@ const features = [
     category: "MAKER",
     endpoint: "../api",
     query: "s=blurimg&url=https://i.ytimg.com/vi/LIohsg2kHEM/maxresdefault.jpg"
+  },
+  {
+    name: "Beautiful",
+    method: "GET",
+    description: "Maker/beautiful",
+    category: "MAKER",
+    endpoint: "../api",
+    query: "s=beautiful&url=https://i.ytimg.com/vi/LIohsg2kHEM/maxresdefault.jpg"
+  },
+  {
+    name: "Facepalm",
+    method: "GET",
+    description: "Maker/facepalm",
+    category: "MAKER",
+    endpoint: "../api",
+    query: "s=facepalm&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
   },
   {
     name: "MediaFire",
@@ -246,6 +278,22 @@ const features = [
     category: "DOWNLOADER",
     endpoint: "../api",
     query: "s=twitter&url=https://twitter.com/Eminem/status/943590594491772928"
+  },
+  {
+    name: "Xvideo-DL",
+    method: "GET",
+    description: "Downloader/xvideodl",
+    category: "DOWNLOADER",
+    endpoint: "../api",
+    query: "s=xvideodl&url=https://www.xvideos.com/video.ueuulmd7082/colok_memek_pake_stang_motor"
+  },
+  {
+    name: "Xnxx-DL",
+    method: "GET",
+    description: "Downloader/xnxxdl",
+    category: "DOWNLOADER",
+    endpoint: "../api",
+    query: "s=xnxxdl&url=https://www.xnxx.com/video-15jsg545/five_hot_girls_love_to_lick_they_pussy"
   },
   {
     name: "Otakudesu-Search",
@@ -390,6 +438,70 @@ const features = [
     category: "CONVERT",
     endpoint: "../api",
     query: "s=githubori&url=https://raw.githubusercontent.com/ViooWA/Web/main/vercel.json"
+  },
+  {
+    name: "Cecan Indonesia",
+    method: "GET",
+    description: "Random/indonesia",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=indonesia"
+  },
+  {
+    name: "Cecan China",
+    method: "GET",
+    description: "Random/china",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=china"
+  },
+  {
+    name: "Cecan Japan",
+    method: "GET",
+    description: "Random/japan",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=japan"
+  },
+  {
+    name: "Cecan Korea",
+    method: "GET",
+    description: "Random/korea",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=korea"
+  },
+  {
+    name: "Cecan Thailand",
+    method: "GET",
+    description: "Random/thailand",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=thailand"
+  },
+  {
+    name: "Cecan Vietnam",
+    method: "GET",
+    description: "Random/vietnam",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=vietnam"
+  },
+  {
+    name: "Cecan Malaysia",
+    method: "GET",
+    description: "Random/Malaysia",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=malaysia"
+  },
+  {
+    name: "Asupan Random",
+    method: "GET",
+    description: "Random/asupan",
+    category: "RANDOM",
+    endpoint: "../api",
+    query: "s=asupan"
   },
   {
     name: "NSFW",
