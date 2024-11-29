@@ -1,119 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Interface</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .api-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .api-header {
-            background-color: #f3f4f6;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .category-section {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #ffffff;
-            border-radius: 8px;
-        }
-        .category-section h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4B5563;
-        }
-        .category-cards {
-            margin-top: 10px;
-        }
-        .card {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .card button {
-            background-color: #3b82f6;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
-        .card button:hover {
-            background-color: #2563eb;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V-APIs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    .gradient-bg {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      color: white;
+    }
+    .gradient-button {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .gradient-text {
+      background: linear-gradient(to right, #f59e0b, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    body {
+      background-color: #1f2937;
+      color: #e5e7eb;
+      overflow-x: hidden;
+    }
+    .card {
+      background-color: #374151;
+      color: #f9fafb;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .button-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .icon {
+      width: 48px;
+      height: 48px;
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-
-<div class="api-container">
-    <div class="api-header text-center">
-        <h1>API Interface</h1>
-        <p class="text-lg">Explore available API endpoints</p>
+<body class="bg-gray-900 flex flex-col min-h-screen">
+  <header class="gradient-bg p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">V-APIs</h1>
+      <button id="menu-toggle" class="lg:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+      <nav id="menu" class="hidden lg:flex space-x-4">
+        <a href="#" class="text-white hover:underline">Home</a>
+        <a href="#feature" class="text-white hover:underline">Features</a>
+        <a href="#contact" class="text-white hover:underline">Contact</a>
+      </nav>
     </div>
-
-    <div id="features"></div>
-</div>
-
-<script>
-    const features = [
-        {
-            name: "OpenAI",
-            method: "GET",
-            description: "AI/openai",
-            category: "AI",
-            endpoint: "../api/openai",
-            query: "text=Hello%20AI"
-        }
-    ];
-
-    const featureContainer = document.getElementById("features");
-
-    function createCategorySection(categoryName) {
-        const categorySection = document.createElement("div");
-        categorySection.classList.add("category-section");
-        categorySection.innerHTML = `<h2>${categoryName}</h2><div class="category-cards"></div>`;
-        return categorySection;
-    }
-
-    function redirectToEndpoint(endpoint, query) {
-        const fullUrl = `${endpoint}?${query}`;
-        console.log("Redirecting to:", fullUrl);
-        location.href = fullUrl;
-    }
-
-    const categories = [...new Set(features.map((feature) => feature.category))];
-    categories.forEach((category) => {
-        const categorySection = createCategorySection(category);
-        const categoryCards = categorySection.querySelector(".category-cards");
-
-        features
-            .filter((feature) => feature.category === category)
-            .forEach((feature) => {
-                const card = document.createElement("div");
-                card.classList.add("card");
-                card.innerHTML = `
-                    <h3 class="font-semibold">${feature.name}</h3>
-                    <p class="text-sm text-gray-500">${feature.description}</p>
-                    <button onclick="redirectToEndpoint('${feature.endpoint}', '${feature.query}')">
-                        ${feature.method}
-                    </button>
-                `;
-                categoryCards.appendChild(card);
-            });
-
-        featureContainer.appendChild(categorySection);
-    });
-</script>
-
+  </header>
+  <main class="container mx-auto py-10 flex-grow">
+    <h1 class="text-6xl font-bold text-center mb-10 gradient-text">V-APIs</h1>
+    <div id="feature" class="space-y-8"></div>
+  </main>
+  <footer id="contact" class="bg-gray-800 py-6">
+    <div class="container mx-auto text-center text-gray-400 space-y-4">
+      <p>&copy; 2024 V-APIs - by Vioo WhatsApp</p>
+      <div>
+        <p>Follow Us:</p>
+        <ul class="flex justify-center space-x-6">
+          <li>
+            <a href="https://youtube.com/@SanjayaAds" target="_blank" class="flex items-center text-gray-400 hover:text-white">
+              <i class="fab fa-youtube text-lg"></i>
+              <span class="ml-2">YouTube</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://t.me/+6289654057716" target="_blank" class="flex items-center text-gray-400 hover:text-white">
+              <i class="fab fa-telegram-plane text-lg"></i>
+              <span class="ml-2">Telegram</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
