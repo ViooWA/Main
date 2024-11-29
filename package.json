@@ -1,21 +1,15 @@
 {
   "name": "Vioo",
   "version": "1.0.0",
-  "description": "A simple Express API deployed on Vercel",
-  "main": "api/hello.js",
+  "description": "API Interface with Express",
+  "main": "vercel.js",
   "scripts": {
-    "dev": "vercel dev", 
-    "start": "vercel dev"
+    "start": "node vercel.js"
   },
   "dependencies": {
-    "express": "^4.19.1",
-    "@vercel/node": "^2.0.0"
-  },
-  "devDependencies": {},
-  "author": "Your Name",
-  "license": "MIT",
-  "engines": {
-    "node": "18.x"
-  },
-  "private": true
+    "@vercel/node": "^2.0.0",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.19.1"
+  }
 }
