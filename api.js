@@ -108,31 +108,13 @@ err: e
 }}}}
 
 async function dlURL(url) {
-    const browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless, // Selalu gunakan headless di serverless
-    });
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
 
-    try {
-        const page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle2' });
+    const fileUrl = $('a.download-link').attr('href');
+    if (!fileUrl) throw new Error('Download link not found');
 
-        // Tunggu elemen download link dan ambil URL
-        await page.waitForSelector('a.download-link');
-        const fileUrl = await page.evaluate(() => {
-            const link = document.querySelector('a.download-link');
-            return link ? link.href : null;
-        });
-
-        if (!fileUrl) throw new Error('Download link not found');
-        return fileUrl;
-    } catch (error) {
-        console.error("Error in dlURL:", error);
-        throw new Error("Failed to process the URL");
-    } finally {
-        await browser.close();
-    }
+    return fileUrl;
 }
 
 async function handler(req, res) {
