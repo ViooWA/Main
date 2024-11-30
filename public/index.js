@@ -32,7 +32,7 @@ const features = [
     query: "s=luminai&text=Hai%20kamu"
   },
   {
-    name: "SimiSimi",
+    name: "Simi-Simi",
     method: "GET",
     description: "AI/simisimi",
     category: "AI",
@@ -72,7 +72,7 @@ const features = [
     query: "s=latukam&text=Hai%20kamu"
   },
   {
-    name: "Google-Search",
+    name: "Google Search",
     method: "GET",
     description: "Search/google",
     category: "SEARCH",
@@ -120,7 +120,7 @@ const features = [
     query: "s=happymod&text=Minecraft"
   },
   {
-    name: "Komiku-Search",
+    name: "Komiku Search",
     method: "GET",
     description: "Search/komiku",
     category: "SEARCH",
@@ -136,7 +136,7 @@ const features = [
     query: "s=mcpedl&text=Jenny"
   },
   {
-    name: "Xvideo-Search",
+    name: "Xvideo Search",
     method: "GET",
     description: "Search/xvidsearch",
     category: "SEARCH",
@@ -144,7 +144,7 @@ const features = [
     query: "s=xvidsearch&text=Pussy"
   },
   {
-    name: "Xnxx-Search",
+    name: "Xnxx Search",
     method: "GET",
     description: "Search/xnxxsearch",
     category: "SEARCH",
@@ -152,7 +152,7 @@ const features = [
     query: "s=xnxxsearch&text=Pussy"
   },
   {
-    name: "Game-Search",
+    name: "Game Search",
     method: "GET",
     description: "Search/gamesrc",
     category: "SEARCH",
@@ -160,7 +160,7 @@ const features = [
     query: "s=gamesrc&text=Anime"
   },
   {
-    name: "Android-1",
+    name: "Android1",
     method: "GET",
     description: "Search/andro1",
     category: "SEARCH",
@@ -168,7 +168,7 @@ const features = [
     query: "s=andro1&text=Stickman"
   },
   {
-    name: "Brat-Sticker",
+    name: "Brat Sticker",
     method: "GET",
     description: "Maker/brat",
     category: "MAKER",
@@ -176,7 +176,7 @@ const features = [
     query: "s=brat&text=Halo%20kamu"
   },
   {
-    name: "Yt-Comment",
+    name: "Yt Comment",
     method: "GET",
     description: "Maker/ytcomment",
     category: "MAKER",
@@ -192,7 +192,7 @@ const features = [
     query: "s=carbon&text=Halo%20kamu"
   },
   {
-    name: "Txt-Image",
+    name: "Txt Image",
     method: "GET",
     description: "Maker/txtimg",
     category: "MAKER",
@@ -272,7 +272,7 @@ const features = [
     query: "s=capcut&url=https://www.capcut.com/t/Zs8Sw9wsE/%20aesthetic"
   },
   {
-    name: "Google-Drive",
+    name: "Google Drive",
     method: "GET",
     description: "Downloader/gdrive",
     category: "DOWNLOADER",
@@ -286,6 +286,22 @@ const features = [
     category: "DOWNLOADER",
     endpoint: "../api",
     query: "s=ytdl&url=https://youtube.com/shorts/kpsR7ogZZ5c?si=vlI0bE-11nyj3nI9"
+  },
+  {
+    name: "Ytmp4",
+    method: "GET",
+    description: "Downloader/ytmp4",
+    category: "DOWNLOADER",
+    endpoint: "../api",
+    query: "s=ytmp4&url=https://youtube.com/shorts/kpsR7ogZZ5c?si=vlI0bE-11nyj3nI9"
+  },
+  {
+    name: "Ytmp3",
+    method: "GET",
+    description: "Downloader/ytmp3",
+    category: "DOWNLOADER",
+    endpoint: "../api",
+    query: "s=ytmp3&url=https://youtube.com/shorts/kpsR7ogZZ5c?si=vlI0bE-11nyj3nI9"
   },
   {
     name: "Twitter",
@@ -312,7 +328,7 @@ const features = [
     query: "s=xnxxdl&url=https://www.xnxx.com/video-15jsg545/five_hot_girls_love_to_lick_they_pussy"
   },
   {
-    name: "Otakudesu-Search",
+    name: "Otakudesu Search",
     method: "GET",
     description: "Anime/otakudesu-src",
     category: "ANIME",
@@ -320,7 +336,7 @@ const features = [
     query: "s=otakudesu-src&text=Naruto"
   },
   {
-    name: "Otakudesu-Detail",
+    name: "Otakudesu Detail",
     method: "GET",
     description: "Anime/otakudesu-detail",
     category: "ANIME",
@@ -328,7 +344,7 @@ const features = [
     query: "s=otakudesu-detail&url=https://otakudesu.cloud/lengkap/btr-nng-sub-indo-part-1"
   },
   {
-    name: "Otakudesu-Ongoing",
+    name: "Otakudesu Ongoing",
     method: "GET",
     description: "Anime/otakudesu-ongoing",
     category: "ANIME",
@@ -336,7 +352,7 @@ const features = [
     query: "s=otakudesu-ongoing"
   },
   {
-    name: "Otakudesu-Download",
+    name: "Otakudesu Download",
     method: "GET",
     description: "Anime/otakudesu-dl",
     category: "ANIME",
@@ -344,7 +360,7 @@ const features = [
     query: "s=otakudesu-dl&url=https://otakudesu.cloud/lengkap/btr-nng-sub-indo-part-1"
   },
   {
-    name: "Animebatch-Search",
+    name: "Animebatch Search",
     method: "GET",
     description: "Anime/abatch-src",
     category: "ANIME",
@@ -352,12 +368,28 @@ const features = [
     query: "s=abatch-src&text=Maou"
   },
   {
-    name: "Animebatch-Download",
+    name: "Animebatch Download",
     method: "GET",
     description: "Anime/abatch-dl",
     category: "ANIME",
     endpoint: "../api",
     query: "s=abatch-dl&url=https://www.animebatch.id/maou-no-ore-ga-dorei-elf-wo-yome-ni-shitanda-ga-dou-medereba-ii-sub-indo/"
+  },
+  {
+    name: "Anime Search",
+    method: "GET",
+    description: "Anime/animesrc",
+    category: "ANIME",
+    endpoint: "../api",
+    query: "s=animesrc&text=Naruto"
+  },
+  {
+    name: "OtakOtaku",
+    method: "GET",
+    description: "Anime/otakotaku",
+    category: "ANIME",
+    endpoint: "../api",
+    query: "s=otakotaku&text=Mahiru"
   },
   {
     name: "Tebak Gambar",
@@ -424,7 +456,55 @@ const features = [
     query: "s=tebaklirik"
   },
   {
-    name: "ToBase64",
+    name: "Tebak Kalimat",
+    method: "GET",
+    description: "Games/tebakkalimat",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tebakkalimat"
+  },
+  {
+    name: "Tebak Kata",
+    method: "GET",
+    description: "Games/tebakkata",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tebakkata"
+  },
+  {
+    name: "Tebak Kimia",
+    method: "GET",
+    description: "Games/tebakkimia",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tebakkimia"
+  },
+  {
+    name: "Tebak Logo",
+    method: "GET",
+    description: "Games/tebaklogo",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tebaklogo"
+  },
+  {
+    name: "Tebak Kabupaten",
+    method: "GET",
+    description: "Games/tkabupaten",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tkabupaten"
+  },
+  {
+    name: "Tebak Tebakan",
+    method: "GET",
+    description: "Games/tebaktebakan",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=tebaktebakan"
+  },
+  {
+    name: "To Base64",
     method: "GET",
     description: "Convert/tobase64",
     category: "CONVERT",
@@ -432,7 +512,7 @@ const features = [
     query: "s=tobase64&text=Halo%20kamu"
   },
   {
-    name: "ToUtf8",
+    name: "To Utf8",
     method: "GET",
     description: "Convert/toutf8",
     category: "CONVERT",
@@ -560,12 +640,44 @@ const features = [
     query: "s=ssweb&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
   },
   {
-    name: "Remove-Background",
+    name: "Remove Background",
     method: "GET",
     description: "Tools/removebg",
     category: "TOOLS",
     endpoint: "../api",
     query: "s=removebg&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Stalk Github",
+    method: "GET",
+    description: "Stalk/stalk-ghuser",
+    category: "STALK",
+    endpoint: "../api",
+    query: "s=stalk-ghuser&text=ViooWA"
+  },
+  {
+    name: "Stalk GhRepo",
+    method: "GET",
+    description: "Stalk/stalk-ghrepo",
+    category: "STALK",
+    endpoint: "../api",
+    query: "s=stalk-ghrepo&text=ViooWA&text1=Js"
+  },
+  {
+    name: "Stalk NPM",
+    method: "GET",
+    description: "Stalk/stalk-npm",
+    category: "STALK",
+    endpoint: "../api",
+    query: "s=stalk-npm&text=axios"
+  },
+  {
+    name: "Stalk Tiktok",
+    method: "GET",
+    description: "Stalk/stalk-tt",
+    category: "STALK",
+    endpoint: "../api",
+    query: "s=stalk-tt&text=mrbeast"
   },
   {
     name: "NSFW",
