@@ -111,13 +111,14 @@ async function dlURL(url) {
     const browser = await chromium.puppeteer.launch({
         args: chromium.args,
         executablePath: await chromium.executablePath,
-        headless: chromium.headless,
+        headless: chromium.headless, // Selalu gunakan headless di serverless
     });
 
     try {
         const page = await browser.newPage();
         await page.goto(url, { waitUntil: 'networkidle2' });
 
+        // Tunggu elemen download link dan ambil URL
         await page.waitForSelector('a.download-link');
         const fileUrl = await page.evaluate(() => {
             const link = document.querySelector('a.download-link');
@@ -125,17 +126,14 @@ async function dlURL(url) {
         });
 
         if (!fileUrl) throw new Error('Download link not found');
-
         return fileUrl;
-    } catch (err) {
-        console.error("Error in dlURL:", err);
-        throw new Error("Failed to fetch the download URL");
+    } catch (error) {
+        console.error("Error in dlURL:", error);
+        throw new Error("Failed to process the URL");
     } finally {
         await browser.close();
     }
 }
-
-module.exports = dlURL;
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
