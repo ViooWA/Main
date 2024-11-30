@@ -136,6 +136,32 @@ headers: {
 return response.data;
 }
 
+async function recolor(imageUrl) {
+const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+const imageBuffer = Buffer.from(imageResponse.data, 'binary');
+const form = new FormData();
+form.append('image', imageBuffer);
+form.append('output_format', 'jpg');
+form.append('mode', 'Rec709');
+const response = await axios.post(
+'https://www.ailabapi.com/api/image/enhance/image-color-enhancement', form, { headers: {
+'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
+}});
+return response.data.data.image_url;
+}
+
+async function dehaze(imageUrl) {
+const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+const imageBuffer = Buffer.from(imageResponse.data, 'binary');
+const filename = imageUrl.split('/').pop();
+const form = new FormData();
+form.append('image', imageBuffer, { filename: filename });
+const response = await axios.post('https://www.ailabapi.com/api/image/enhance/image-defogging', form, { headers: {
+'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
+}});
+return Buffer.from(response.data.image, 'base64');
+}
+
 const api = axios.create({
 baseURL: 'https://api4g.iloveimg.com'
 })
@@ -714,19 +740,16 @@ const resultImage = await remini(imageData, 'enhance');
 res.setHeader('Content-Type', 'image/jpeg');
 res.send(resultImage);
 } else if (s === 'recolor') { // RECOLOR
-const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
-const imageData = Buffer.from(imageResponse.data);
-const resultImage = await remini(imageData, 'recolor');
+const resultImageUrl = await recolor(url);
+const resultImageResponse = await axios.get(resultImageUrl,{ responseType: 'arraybuffer' });
 res.setHeader('Content-Type', 'image/jpeg');
-res.send(resultImage);
+res.send(resultImageResponse.data);
 } else if (s === 'dehaze') { // DEHAZE
-const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
-const imageData = Buffer.from(imageResponse.data);
-const resultImage = await remini(imageData, 'dehaze');
+const resultImage = await dehaze(url);
 res.setHeader('Content-Type', 'image/jpeg');
 res.send(resultImage);
 } else if (s === 'ssweb') { // SSWEB
-const response = await axios.get(`https://api.vreden.my.id/api/ssweb?url=${url}&type=tablet`,
+const response = await axios.get(`https://api.vreden.my.id/api/ssweb?url=${url}&type=phone`,
 { responseType: 'arraybuffer' }
 );
 res.setHeader('Content-Type', 'image/png');
