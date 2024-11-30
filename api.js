@@ -107,18 +107,27 @@ err: e
 }}}}
 
 async function dlURL(url) {
-const browser = await puppeteer.launch();
+const browser = await puppeteer.launch({
+headless: true,
+args: ['--no-sandbox', '--disable-setuid-sandbox'],
+executablePath: puppeteer.executablePath(),
+});
+try {
 const page = await browser.newPage();
 await page.goto(url, { waitUntil: 'networkidle2' });
 await page.waitForSelector('a.download-link');
 await page.click('a.download-link');
 await page.waitForTimeout(4000);
 const fileUrl = await page.evaluate(() => {
-return document.querySelector('a.download-link').href;
+const link = document.querySelector('a.download-link');
+return link ? link.href : null;
 });
-await browser.close();
 return fileUrl;
-}
+} catch (err) {
+console.error('')
+} finally {
+await browser.close()
+}}
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
