@@ -105,11 +105,14 @@ msg: "Error",
 err: e 
 }}}}
 
-async function getValidUrl(url) {
-const response = await axios.get(url, { maxRedirects: 5 });
-const validUrl = response.request.res.responseUrl;
-return validUrl;
-}
+function dlURL(url) {
+return axios.get(url, { responseType: 'blob' })
+.then((response) => {
+const fileUrl = URL.createObjectURL(response.data);
+return fileUrl;
+}).catch((error) => {
+console.error('')
+})}
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
@@ -403,7 +406,7 @@ data: response.data.data,
 } else if (s === 'ytdl') { // YOUTUBE
 const data = new Ddownr(`${url}`);
 const downloadResult = await data.download('480');
-const roar = await getValidUrl(downloadResult.download)
+const roar = await dlURL(downloadResult.download)
 return res.status(200).json({
 status: true,
 data: {
