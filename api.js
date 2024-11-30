@@ -212,6 +212,27 @@ throw JSON.parse(reqRmbg.data?.toString() || '{"error":{"message":"An error occu
 return reqRmbg.data
 }
 
+async function Andro1(query) {
+const url = `https://an1.com/?story=${query}&do=search&subaction=search`;
+const { data } = await axios.get(url);
+const $ = cheerio.load(data);
+const items = [];
+$('.item').each((index, element) => {
+const name = $(element).find('.name a span').text();
+const developer = $(element).find('.developer').text();
+const rating = $(element).find('.current-rating').css('width').replace('%', '');
+const imageUrl = $(element).find('.img img').attr('src');
+const link = $(element).find('.name a').attr('href');
+items.push({
+name,
+developer,
+rating: parseFloat(rating) / 20,
+imageUrl,
+link,
+})});
+return items;
+}
+
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
 
@@ -377,6 +398,24 @@ const response = await axios.get(`https://api.agatz.xyz/api/xnxx?message=${encod
 return res.status(200).json({
 status: true,
 data: response.data.data,
+});
+} else if (s === 'gamesrc') { // GAMESRC
+const response = await axios.get(`https://www.freetogame.com/api/games?category=${category}`);
+const tags = ['Sports', 'Social', 'Fighting', 'Fantasy', 'Sci-Fi', 'Racing', 'Card Games', 'MOBA', 'Anime', 'Battle Royale', 'MMORPG', 'Strategy', 'Shooter']
+if (!tags.includes(text) && !text.includes('list')) {
+return res.status(400).json({
+status: false,
+message: `List: ${tags.join(", ")}`,
+})}
+return res.status(200).json({
+status: true,
+data: response.data,
+});
+} else if (s === 'andro1') { // ANDRO1
+const response = await Andro1(`${encodeURIComponent(text)}`);
+return res.status(200).json({
+status: true,
+data: response,
 });
 
 // MAKER MENU
