@@ -1,7 +1,5 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const chromium = require('chrome-aws-lambda')
-const puppeteer = require('puppeteer')
 
 async function komiku(search) {
 const ress = await axios.get(`https://api.komiku.id/?post_type=manga&s=${search}`);
@@ -106,16 +104,6 @@ success: false,
 msg: "Error", 
 err: e 
 }}}}
-
-async function dlURL(url) {
-    const response = await axios.get(url);
-    const $ = cheerio.load(response.data);
-
-    const fileUrl = $('a.download-link').attr('href');
-    if (!fileUrl) throw new Error('Download link not found');
-
-    return fileUrl;
-}
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
@@ -409,13 +397,12 @@ data: response.data.data,
 } else if (s === 'ytdl') { // YOUTUBE
 const data = new Ddownr(`${url}`);
 const dlR = await data.download('360');
-const roarr = await dlURL(dlR.download)
 return res.status(200).json({
 status: true,
 data: {
 title: dlR.title,
 thumb: dlR.image,
-url: roarr,
+url: dlR.download,
 }});
 } else if (s === 'twitter') { // TWITTER
 const response = await axios.get(`https://api.agatz.xyz/api/twitter?url=${url}`
