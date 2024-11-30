@@ -152,6 +152,22 @@ const features = [
     query: "s=xnxxsearch&text=Pussy"
   },
   {
+    name: "Game-Search",
+    method: "GET",
+    description: "Search/gamesrc",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=gamesrc&text=Anime"
+  },
+  {
+    name: "Android-1",
+    method: "GET",
+    description: "Search/andro1",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=andro1&text=Stickman"
+  },
+  {
     name: "Brat-Sticker",
     method: "GET",
     description: "Maker/brat",
