@@ -1,5 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+const puppeteer = require('puppeteer')
 
 async function komiku(search) {
 const ress = await axios.get(`https://api.komiku.id/?post_type=manga&s=${search}`);
@@ -105,14 +106,19 @@ msg: "Error",
 err: e 
 }}}}
 
-function dlURL(url) {
-return axios.get(url, { responseType: 'blob' })
-.then((response) => {
-const fileUrl = URL.createObjectURL(response.data);
+async function dlURL(url) {
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+await page.goto(url, { waitUntil: 'networkidle2' });
+await page.waitForSelector('a.download-link');
+await page.click('a.download-link');
+await page.waitForTimeout(4000);
+const fileUrl = await page.evaluate(() => {
+return document.querySelector('a.download-link').href;
+});
+await browser.close();
 return fileUrl;
-}).catch((error) => {
-console.error('')
-})}
+}
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
