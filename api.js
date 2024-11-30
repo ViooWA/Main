@@ -140,13 +140,11 @@ async function recolor(imageUrl) {
 const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
 const imageBuffer = Buffer.from(imageResponse.data, 'binary');
 const form = new FormData();
-form.append('image', imageBuffer);
+form.append('image', imageBuffer, { filename: 'image.jpg' });
 form.append('output_format', 'jpg');
 form.append('mode', 'Rec709');
-const response = await axios.post(
-'https://www.ailabapi.com/api/image/enhance/image-color-enhancement', form, { headers: {
-'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
-}});
+const response = await axios.post('https://www.ailabapi.com/api/image/enhance/image-color-enhancement', form, { headers: {'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
+},});
 return response.data.data.image_url;
 }
 
