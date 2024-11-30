@@ -504,6 +504,54 @@ const features = [
     query: "s=asupan"
   },
   {
+    name: "Remini",
+    method: "GET",
+    description: "Tools/remini",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=remini&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Reminiv2",
+    method: "GET",
+    description: "Tools/reminiv2",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=reminiv2&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Recolor",
+    method: "GET",
+    description: "Tools/recolor",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=recolor&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Dehaze",
+    method: "GET",
+    description: "Tools/dehaze",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=dehaze&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Screenshot-Web",
+    method: "GET",
+    description: "Tools/ssweb",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=ssweb&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
+    name: "Remove-Background",
+    method: "GET",
+    description: "Tools/removebg",
+    category: "TOOLS",
+    endpoint: "../api",
+    query: "s=removebg&url=https://i.ibb.co.com/9rtTrVy/download-1.jpg"
+  },
+  {
     name: "NSFW",
     method: "GET",
     description: "NSFW/nsfw",
