@@ -400,7 +400,7 @@ status: true,
 data: response.data.data,
 });
 } else if (s === 'gamesrc') { // GAMESRC
-const response = await axios.get(`https://www.freetogame.com/api/games?category=${category}`);
+const response = await axios.get(`https://www.freetogame.com/api/games?category=${text}`);
 const tags = ['Sports', 'Social', 'Fighting', 'Fantasy', 'Sci-Fi', 'Racing', 'Card Games', 'MOBA', 'Anime', 'Battle Royale', 'MMORPG', 'Strategy', 'Shooter']
 if (!tags.includes(text) && !text.includes('list')) {
 return res.status(400).json({
