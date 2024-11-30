@@ -1,5 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+const chromium = require('chrome-aws-lambda')
 const puppeteer = require('puppeteer')
 
 async function komiku(search) {
@@ -107,27 +108,34 @@ err: e
 }}}}
 
 async function dlURL(url) {
-const browser = await puppeteer.launch({
-headless: true,
-args: ['--no-sandbox', '--disable-setuid-sandbox'],
-executablePath: puppeteer.executablePath(),
-});
-try {
-const page = await browser.newPage();
-await page.goto(url, { waitUntil: 'networkidle2' });
-await page.waitForSelector('a.download-link');
-await page.click('a.download-link');
-await page.waitForTimeout(4000);
-const fileUrl = await page.evaluate(() => {
-const link = document.querySelector('a.download-link');
-return link ? link.href : null;
-});
-return fileUrl;
-} catch (err) {
-console.error('')
-} finally {
-await browser.close()
-}}
+    const browser = await chromium.puppeteer.launch({
+        args: chromium.args,
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless,
+    });
+
+    try {
+        const page = await browser.newPage();
+        await page.goto(url, { waitUntil: 'networkidle2' });
+
+        await page.waitForSelector('a.download-link');
+        const fileUrl = await page.evaluate(() => {
+            const link = document.querySelector('a.download-link');
+            return link ? link.href : null;
+        });
+
+        if (!fileUrl) throw new Error('Download link not found');
+
+        return fileUrl;
+    } catch (err) {
+        console.error("Error in dlURL:", err);
+        throw new Error("Failed to fetch the download URL");
+    } finally {
+        await browser.close();
+    }
+}
+
+module.exports = dlURL;
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
