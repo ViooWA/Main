@@ -1,5 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+const FormData = require('form-data')
 
 async function komiku(search) {
 const ress = await axios.get(`https://api.komiku.id/?post_type=manga&s=${search}`);
@@ -105,10 +106,86 @@ msg: "Error",
 err: e 
 }}}}
 
+async function imagetohd(imageBuffer) {
+const formData = new FormData();
+formData.append('image', imageBuffer, {
+filename: 'upload.png',
+contentType: 'image/png',
+});
+const response = await axios.post(
+'https://www.videotok.app/api/free-restore-image', formData, {
+headers: {
+...formData.getHeaders(),
+}, });
+const { imageUrl } = response.data;
+return imageUrl;
+}
+
+async function remini(imageData, action) {
+return new Promise(async (resolve, reject) => {
+let actions = ['enhance', 'recolor', 'dehaze'];
+if (!actions.includes(action)) {
+action = actions[0];
+}
+let formData = new FormData();
+let url = `https://inferenceengine.vyro.ai/${action}`;
+formData.append('model_version', 1, {
+'Content-Transfer-Encoding': 'binary',
+'contentType': 'multipart/form-data; charset=uttf-8'
+});
+formData.append('image', Buffer.from(imageData), {
+'filename': 'enhance_image_body.jpg',
+'contentType': 'image/jpeg'
+});
+formData.submit({
+'url': url,
+'host': 'inferenceengine.vyro.ai',
+'path': `/${action}`,
+'protocol': 'https:',
+'headers': {
+'User-Agent': 'okhttp/4.9.3',
+'Connection': 'Keep-Alive',
+'Accept-Encoding': 'gzip'
+}}, function (err, res) {
+if (err) {
+reject();
+return; }
+let chunks = [];
+res.on('data', chunk => {
+chunks.push(chunk);
+}).on('end', () => {
+resolve(Buffer.concat(chunks));
+}).on('error', () => {
+reject();
+});
+});
+});
+}
+
+const removeBg = async (imageBuffer, responseType = 'arraybuffer') => {
+const {
+serverFilename,
+taskId
+} = await uploadImageToServer(imageBuffer)
+const form = new FormData()
+form.append('task', taskId)
+form.append('server_filename', serverFilename)
+const reqRmbg = await api.post('/v1/removebackground', form, {
+headers: form.getHeaders(),
+responseType
+}).catch(e => e.response)
+const type = reqRmbg.headers['content-type']
+if (reqRmbg.status !== 200 || !/image/.test(type))
+throw JSON.parse(reqRmbg.data?.toString() || '{"error":{"message":"An error occurred"}}')
+return reqRmbg.data
+}
+
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
 
 try {
+
+// ARTIFICIAL INTELLIGENCE
 if (s === 'openai') { // OPENAI
 const response = await axios.get(`https://api.agatz.xyz/api/gpt4o?message=${encodeURIComponent(text)}`
 );
@@ -169,6 +246,8 @@ return res.status(200).json({
 status: true,
 result: response.data.data,
 });
+
+// SEARCH MENU
 } else if (s === 'google') { // GOOGLE
 const response = await axios.get(`https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(text)}&key=AIzaSyAajE2Y-Kgl8bjPyFvHQ-PgRUSMWgBEsSk&cx=e5c2be9c3f94c4bbb`);
 const items = response.data.items;
@@ -267,6 +346,8 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+
+// MAKER MENU
 } else if (s === 'brat') { // BRAT
 const response = await axios.get(
 `https://api.siputzx.my.id/api/m/brat?text=${encodeURIComponent(text)}`,
@@ -332,6 +413,8 @@ const response = await axios.get(
 );
 res.setHeader('Content-Type', 'image/png');
 res.send(response.data);
+
+// DOWNLOADER
 } else if (s === 'mediafire') { // MEDIAFIRE
 const response = await axios.get(`https://api.vreden.my.id/api/mediafiredl?url=${url}`);
 const data = response.data;
@@ -425,6 +508,8 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+
+// ANIME MENU
 } else if (s === 'otakudesu-src') { // OTKD-SRC
 const response = await axios.get(`https://api.siputzx.my.id/api/anime/otakudesu/search?s=${encodeURIComponent(text)}`
 );
@@ -467,6 +552,8 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+
+// GAMES MENU
 } else if (s === 'tebakgambar') { // TEBAKGAMBAR
 const response = await axios.get(`https://api.siputzx.my.id/api/games/tebakgambar?-`
 );
@@ -523,6 +610,8 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+
+// CONVERT MENU
 } else if (s === 'tobase64') { // TOBASE64
 const base64 = Buffer.from(text).toString('base64');
 return res.status(200).json({
@@ -557,6 +646,8 @@ return res.status(200).json({
 status: true,
 result: originalUrl,
 });
+
+// RANDOM MENU
 } else if (s === 'indonesia') { // INDONESIA
 const apiUrl = `https://api.siputzx.my.id/api/r/cecan/indonesia?-`;
 const response = await axios.get(apiUrl, { responseType: 'arraybuffer' });
@@ -599,6 +690,48 @@ return res.status(200).json({
 status: true,
 url: response.data.data,
 });
+
+// TOOLS MENU
+} else if (s === 'remini') { // REMINI
+const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+const imageBuffer = Buffer.from(imageResponse.data);
+const hdImageUrl = await imagetohd(imageBuffer);
+const hdImageResponse = await axios.get(hdImageUrl, { responseType: 'arraybuffer' });
+res.setHeader('Content-Type', 'image/png');
+res.send(hdImageResponse.data);
+} else if (s === 'reminiv2') { // REMINIV2
+const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+const imageData = Buffer.from(imageResponse.data);
+const resultImage = await remini(imageData, 'enhance');
+res.setHeader('Content-Type', 'image/jpeg');
+res.send(resultImage);
+} else if (s === 'recolor') { // RECOLOR
+const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+const imageData = Buffer.from(imageResponse.data);
+const resultImage = await remini(imageData, 'recolor');
+res.setHeader('Content-Type', 'image/jpeg');
+res.send(resultImage);
+} else if (s === 'dehaze') { // DEHAZE
+const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+const imageData = Buffer.from(imageResponse.data);
+const resultImage = await remini(imageData, 'dehaze');
+res.setHeader('Content-Type', 'image/jpeg');
+res.send(resultImage);
+} else if (s === 'ssweb') { // SSWEB
+const response = await axios.get(
+`https://api.siputzx.my.id/api/tools/ssweb?url=${url}&theme=light&device=desktop`,
+{ responseType: 'arraybuffer' }
+);
+res.setHeader('Content-Type', 'image/png');
+res.send(response.data);
+} else if (s === 'removebg') { // REMOVEBG
+const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+const imageBuffer = Buffer.from(imageResponse.data);
+const resultImage = await removeBg(imageBuffer);
+res.setHeader('Content-Type', 'image/png');
+res.send(resultImage);
+
+// NSFW AND SFW
 } else if (s === 'nsfw') { // NSFW
 const pe = await axios.get(`https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${encodeURIComponent(text)}&json=1`)
 .catch((err) => {
