@@ -411,11 +411,15 @@ data: response.data.data,
 });
 } else if (s === 'ytdl') { // YOUTUBE
 const data = new Ddownr(`${url}`);
-const downloadResult = await data.download('360');
+const dlR = await data.download('360');
+const roarr = await dlURL(dlR.download)
 return res.status(200).json({
 status: true,
-data: downloadResult,
-});
+data: {
+title: dlR.title,
+thumb: dlR.image,
+url: roarr,
+}});
 } else if (s === 'twitter') { // TWITTER
 const response = await axios.get(`https://api.agatz.xyz/api/twitter?url=${url}`
 );
