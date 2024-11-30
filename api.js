@@ -418,8 +418,8 @@ status: true,
 data: {
 thumb: downloadResult.image
 title: downloadResult.title
-url: roar,
-}});
+url: roar
+}, });
 } else if (s === 'twitter') { // TWITTER
 const response = await axios.get(`https://api.agatz.xyz/api/twitter?url=${url}`
 );
