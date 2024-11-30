@@ -233,6 +233,32 @@ link,
 return items;
 }
 
+async function animeSrc(anime) {
+const response = await axios.get(`https://myanimelist.net/anime.php?q=${anime}&cat=anime`);
+const $ = cheerio.load(response.data);
+const result = [];
+$('tr').each((i, el) => {
+const titleElement = $(el).find('a.hoverinfo_trigger.fw-b.fl-l');
+const desc = $(el).find('div.pt4').text().trim().replace(/read more\.\s*$/i, '');
+const link = titleElement.attr('href');
+const status = $(el).find('td.borderClass.ac.bgColor0').eq(0).text().trim();
+const episode = $(el).find('td.borderClass.ac.bgColor0').eq(1).text().trim();
+const durasi = $(el).find('td.borderClass.ac.bgColor0').eq(2).text().trim();
+const title = titleElement.find('strong').text().trim();
+const img = $(el).find('img').attr('data-src') || $(el).find('img').attr('src');
+if (img && title && durasi && episode && status && link && desc) {
+result.push({
+anime: title,
+link: link,
+status: status,
+description: desc,
+image: img,
+durasi: durasi,
+total_episode: episode
+})}});
+return result;
+}
+
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
 
@@ -558,6 +584,20 @@ title: dlR.title,
 thumb: dlR.image,
 url: dlR.download,
 }});
+} else if (s === 'ytmp4') { // YTMP4
+const response = await axios.get(`https://api.siputzx.my.id/api/d/ytmp4?url=${url}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'ytmp3') { // YTMP3
+const response = await axios.get(`https://api.siputzx.my.id/api/d/ytmp4?url=${url}`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
 } else if (s === 'twitter') { // TWITTER
 const response = await axios.get(`https://api.agatz.xyz/api/twitter?url=${url}`
 );
@@ -623,6 +663,18 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+} else if (s === 'animesrc') { // ANIMESRC
+const response = await animeSrc(text)
+return res.status(200).json({
+status: true,
+data: response,
+});
+} else if (s === 'otakotaku') { // OTAKOTAKU
+const response = await axios.get(`https://api.siputzx.my.id/api/s/otakotaku?query=${encodeURIComponent(text)}`)
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
 
 // GAMES MENU
 } else if (s === 'tebakgambar') { // TEBAKGAMBAR
@@ -676,6 +728,48 @@ data: response.data.data,
 });
 } else if (s === 'tebaklirik') { // TEBAKLIRIK
 const response = await axios.get(`https://api.siputzx.my.id/api/games/tebaklirik?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tebakkalimat') { // TEBAKKALIMAT
+const response = await axios.get(`https://api.siputzx.my.id/api/games/tebakkalimat?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tebakkata') { // TEBAKKATA
+const response = await axios.get(`https://api.siputzx.my.id/api/games/tebakkata?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tebakkimia') { // TEBAKKIMIA
+const response = await axios.get(`https://api.siputzx.my.id/api/games/tebakkimia?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tebaklogo') { // TEBAKLOGO
+const response = await axios.get(`https://api.siputzx.my.id/api/games/tebaklogo?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tkabupaten') { // TKABUPATEN
+const response = await axios.get(`https://api.siputzx.my.id/api/games/kabupaten?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'tebaktebakan') { // TEBAKTEBAKAN
+const response = await axios.get(`https://api.siputzx.my.id/api/games/tebaktebakan?-`
 );
 return res.status(200).json({
 status: true,
@@ -798,6 +892,32 @@ const resultImage = await removeBg(imageBuffer);
 res.setHeader('Content-Type', 'image/png');
 res.send(resultImage);
 
+// STALKER MENU
+} else if (s === 'stalk-ghuser') { // STALKGHUSER
+const response = await axios.get(`https://api.siputzx.my.id/api/stalk/github?user=${text}`);
+return res.json({
+status: true,
+result: response.data.data,
+});
+} else if (s === 'stalk-ghrepo') { // STALKGHREPO
+const response = await axios.get(`https://itzpire.com/stalk/github-repo?username=${text}&repoName=${text1}`);
+return res.json({
+status: true,
+result: response.data.data,
+});
+} else if (s === 'stalk-npm') { // STALKNPM
+const response = await axios.get(`https://api.siputzx.my.id/api/stalk/npm?packageName=${text}`);
+return res.json({
+status: true,
+result: response.data.data,
+});
+} else if (s === 'stalk-tt') { // STALKTT
+const response = await axios.get(`https://api.siputzx.my.id/api/stalk/tiktok?username=${text}`);
+return res.json({
+status: true,
+result: response.data.data,
+});
+
 // NSFW AND SFW
 } else if (s === 'nsfw') { // NSFW
 const pe = await axios.get(`https://rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${encodeURIComponent(text)}&json=1`)
@@ -860,54 +980,14 @@ headers: err.response.headers,
 switch (err.response?.status) {
 case 400:
 return res.status(400).json({ ...errorResponse, message: 'Bad Request' });
-case 401:
-return res.status(401).json({ ...errorResponse, message: 'Unauthorized' });
-case 402:
-return res.status(402).json({ ...errorResponse, message: 'Payment Required' });
 case 403:
 return res.status(403).json({ ...errorResponse, message: 'Forbidden' });
 case 404:
 return res.status(404).json({ ...errorResponse, message: 'Not Found' });
-case 405:
-return res.status(405).json({ ...errorResponse, message: 'Method Not Allowed' });
-case 406:
-return res.status(406).json({ ...errorResponse, message: 'Not Acceptable' });
-case 407:
-return res.status(407).json({ ...errorResponse, message: 'Proxy Authentication Required' });
-case 408:
-return res.status(408).json({ ...errorResponse, message: 'Request Timeout' });
-case 409:
-return res.status(409).json({ ...errorResponse, message: 'Conflict' });
-case 410:
-return res.status(410).json({ ...errorResponse, message: 'Gone' });
-case 411:
-return res.status(411).json({ ...errorResponse, message: 'Length Required' });
-case 412:
-return res.status(412).json({ ...errorResponse, message: 'Precondition Failed' });
-case 413:
-return res.status(413).json({ ...errorResponse, message: 'Payload Too Large' });
-case 414:
-return res.status(414).json({ ...errorResponse, message: 'URI Too Long' });
-case 415:
-return res.status(415).json({ ...errorResponse, message: 'Unsupported Media Type' });
-case 416:
-return res.status(416).json({ ...errorResponse, message: 'Range Not Satisfiable' });
-case 417:
-return res.status(417).json({ ...errorResponse, message: 'Expectation Failed' });
-case 429:
-return res.status(429).json({ ...errorResponse, message: 'Too Many Requests' });
 case 500:
 return res.status(500).json({ ...errorResponse, message: 'Internal Server Error' });
-case 501:
-return res.status(501).json({ ...errorResponse, message: 'Not Implemented' });
-case 502:
-return res.status(502).json({ ...errorResponse, message: 'Bad Gateway' });
-case 503:
-return res.status(503).json({ ...errorResponse, message: 'Service Unavailable' });
 case 504:
 return res.status(504).json({ ...errorResponse, message: 'Gateway Timeout' });
-case 505:
-return res.status(505).json({ ...errorResponse, message: 'HTTP Version Not Supported' });
 default:
 return res.status(500).json(errorResponse);
 }}
