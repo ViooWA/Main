@@ -757,49 +757,49 @@ result: quotes,
 });
 
 // CERPEN MENU
-} else if (s === 'cerpen-anak') // CERPEN-ANAK
+} else if (s === 'cerpen-anak') { // CERPEN-ANAK
 const cerpen = await Cerpen('anak')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-cinta') // CERPEN-CINTA
+} else if (s === 'cerpen-cinta') { // CERPEN-CINTA
 const cerpen = await Cerpen('cinta')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-galau') // CERPEN-GALAU
+} else if (s === 'cerpen-galau') { // CERPEN-GALAU
 const cerpen = await Cerpen('galau')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-gokil') // CERPEN-GOKIL
+} else if (s === 'cerpen-gokil') { // CERPEN-GOKIL
 const cerpen = await Cerpen('gokil')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-remaja') // CERPEN-REMAJA
+} else if (s === 'cerpen-remaja') { // CERPEN-REMAJA
 const cerpen = await Cerpen('remaja')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-rindu') // CERPEN-RINDU
+} else if (s === 'cerpen-rindu') { // CERPEN-RINDU
 const cerpen = await Cerpen('rindu')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-sedih') // CERPEN-SEDIH
+} else if (s === 'cerpen-sedih') { // CERPEN-SEDIH
 const cerpen = await Cerpen('sedih')
 return res.json({
 status: true,
 data: cerpen,
 });
-} else if (s === 'cerpen-sejarah') // CERPEN-SEJARAH
+} else if (s === 'cerpen-sejarah') { // CERPEN-SEJARAH
 const cerpen = await Cerpen('sejarah')
 return res.json({
 status: true,
