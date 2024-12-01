@@ -168,6 +168,22 @@ const features = [
     query: "s=andro1&text=Stickman"
   },
   {
+    name: "Apk Pure",
+    method: "GET",
+    description: "Search/apkpure",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=apkpure&text=Stickman"
+  },
+  {
+    name: "Lite Apks",
+    method: "GET",
+    description: "Search/liteapks",
+    category: "SEARCH",
+    endpoint: "../api",
+    query: "s=liteapks&text=Stickman"
+  },
+  {
     name: "Brat Sticker",
     method: "GET",
     description: "Maker/brat",
