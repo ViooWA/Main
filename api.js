@@ -1,6 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const { komiku, mcpedl, CarbonifyV1, CarbonifyV2, imagetohd, remini, recolor, dehaze, removeBg, Andro1, animeSrc, Cerpen } = require('./lib/scraper')
+const { komiku, mcpedl, CarbonifyV1, CarbonifyV2, imagetohd, remini, recolor, dehaze, removeBg, Andro1, animeSrc, Cerpen, Apkpure, liteApks } = require('./lib/scraper')
 
 class Ddownr {
 constructor(url) {
@@ -219,6 +219,18 @@ data: response.data,
 });
 } else if (s === 'andro1') { // ANDRO1
 const response = await Andro1(`${encodeURIComponent(text)}`);
+return res.status(200).json({
+status: true,
+data: response,
+});
+} else if (s === 'apkpure') { // APKPURE
+const response = await Apkpure(`${encodeURIComponent(text)}`);
+return res.status(200).json({
+status: true,
+data: response,
+});
+} else if (s === 'liteapks') { // LITEAPKS
+const response = await liteApks(`${encodeURIComponent(text)}`);
 return res.status(200).json({
 status: true,
 data: response,
