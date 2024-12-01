@@ -1,73 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const FormData = require('form-data')
-
-async function komiku(search) {
-const ress = await axios.get(`https://api.komiku.id/?post_type=manga&s=${search}`);
-const $ = cheerio.load(ress.data);
-const mangaList = [];
-$('.bge').each((index, element) => {
-const title = $(element).find('h3').text().trim();
-const description = $(element).find('.judul2').text().trim();
-const image = $(element).find('img').attr('src');
-const link = $(element).find('a').attr('href');
-mangaList.push({
-title,
-description,
-image,
-url: "https://komiku.id" + link
-})});
-return mangaList
-}
-
-async function mcpedl(mods) {
-const ress = await axios.get(`https://mcpedl.org/?s=${mods}`);
-const $ = cheerio.load(ress.data);
-const result = [];
-$('.g-block.size-20').each((index, element) => {
-const title = $(element).find('.entry-title a').text();
-const url = $(element).find('.entry-title a').attr('href');
-const imageUrl = $(element).find('.post-thumbnail img').attr('data-src');
-const ratingWidth = $(element).find('.rating-wrapper .rating-box .rating-subbox').attr('style');
-const rating = ratingWidth ? parseInt(ratingWidth.split(':')[1]) / 100 * 5 : 0;
-result.push({
-title,
-url,
-imageUrl,
-rating: rating,
-})});
-return result;
-}
-
-async function CarbonifyV1(input) {
-try {
-const response = await axios.post("https://carbonara.solopov.dev/api/cook", {
-code: input
-}, {
-headers: {
-"Content-Type": "application/json"
-},
-responseType: 'arraybuffer'
-});
-return response.data;
-} catch (err) {
-throw new Error('CarbonifyV1 failed: ' + err.message);
-}}
-
-async function CarbonifyV2(input) {
-try {
-const response = await axios.post("https://carbon-api.vercel.app/api", {
-code: input
-}, {
-headers: {
-"Content-Type": "application/json"
-},
-responseType: 'arraybuffer'
-});
-return response.data;
-} catch (err) {
-throw new Error('CarbonifyV2 failed: ' + err.message);
-}}
+const { komiku, mcpedl, CarbonifyV1, CarbonifyV2, imagetohd, remini, recolor, dehaze, removeBg, Andro1, animeSrc, Cerpen } = require('./lib/scraper')
 
 class Ddownr {
 constructor(url) {
@@ -105,159 +38,6 @@ success: false,
 msg: "Error", 
 err: e 
 }}}}
-
-async function imagetohd(imageBuffer) {
-const formData = new FormData();
-formData.append('image', imageBuffer, {
-filename: 'upload.png',
-contentType: 'image/png',
-});
-const response = await axios.post(
-'https://www.videotok.app/api/free-restore-image', formData, {
-headers: {
-...formData.getHeaders(),
-}, });
-const { imageUrl } = response.data;
-return imageUrl;
-}
-
-async function remini(imageData, action) {
-let actions = ['enhance', 'recolor', 'dehaze'];
-if (!actions.includes(action)) action = 'enhance';
-const url = `https://inferenceengine.vyro.ai/${action}`;
-const formData = new FormData();
-formData.append('model_version', '1');
-formData.append('image', imageData, 'enhance_image_body.jpg');
-const response = await axios.post(url, formData, {
-headers: {
-...formData.getHeaders(),
-'User-Agent': 'okhttp/4.9.3',
-}, responseType: 'arraybuffer', });
-return response.data;
-}
-
-async function recolor(imageUrl) {
-const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-const imageBuffer = Buffer.from(imageResponse.data, 'binary');
-const form = new FormData();
-form.append('image', imageBuffer, { filename: 'image.jpg' });
-form.append('output_format', 'jpg');
-form.append('mode', 'Rec709');
-const response = await axios.post('https://www.ailabapi.com/api/image/enhance/image-color-enhancement', form, { headers: {'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
-},});
-return response.data.data.image_url;
-}
-
-async function dehaze(imageUrl) {
-const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-const imageBuffer = Buffer.from(imageResponse.data, 'binary');
-const filename = imageUrl.split('/').pop();
-const form = new FormData();
-form.append('image', imageBuffer, { filename: filename });
-const response = await axios.post('https://www.ailabapi.com/api/image/enhance/image-defogging', form, { headers: {
-'ailabapi-api-key': 'arGCBImqk9ePHroLEAuzdT3xln52QORi8WFsQXO1Dj6UbN30P1Kw5CsWNyf2vVtS', ...form.getHeaders(),
-}});
-return Buffer.from(response.data.image, 'base64');
-}
-
-const api = axios.create({
-baseURL: 'https://api4g.iloveimg.com'
-})
-const getTaskId = async () => {
-const {
-data: html
-} = await axios.get('https://www.iloveimg.com/id/hapus-latar-belakang')
-api.defaults.headers.post['authorization'] = `Bearer ${html.match(/ey[a-zA-Z0-9?%-_/]+/g)[1]}`
-return html.match(/taskId = '(\w+)/)[1]
-}
-
-const uploadImageToServer = async (imageBuffer) => {
-const taskId = await getTaskId()
-const fileName = Math.random().toString(36).slice(2) + '.jpg'
-const form = new FormData()
-form.append('name', fileName)
-form.append('chunk', '0')
-form.append('chunks', '1')
-form.append('task', taskId)
-form.append('preview', '1')
-form.append('pdfinfo', '0')
-form.append('pdfforms', '0')
-form.append('pdfresetforms', '0')
-form.append('v', 'web.0')
-form.append('file', imageBuffer, fileName)
-const reqUpload = await api.post('/v1/upload', form, {
-headers: form.getHeaders()
-}).catch(e => e.response)
-if (reqUpload.status !== 200) throw reqUpload.data || reqUpload.statusText
-return {
-serverFilename: reqUpload.data.server_filename,
-taskId
-}}
-
-const removeBg = async (imageBuffer, responseType = 'arraybuffer') => {
-const {
-serverFilename,
-taskId
-} = await uploadImageToServer(imageBuffer)
-const form = new FormData()
-form.append('task', taskId)
-form.append('server_filename', serverFilename)
-const reqRmbg = await api.post('/v1/removebackground', form, {
-headers: form.getHeaders(),
-responseType
-}).catch(e => e.response)
-const type = reqRmbg.headers['content-type']
-if (reqRmbg.status !== 200 || !/image/.test(type))
-throw JSON.parse(reqRmbg.data?.toString() || '{"error":{"message":"An error occurred"}}')
-return reqRmbg.data
-}
-
-async function Andro1(query) {
-const url = `https://an1.com/?story=${query}&do=search&subaction=search`;
-const { data } = await axios.get(url);
-const $ = cheerio.load(data);
-const items = [];
-$('.item').each((index, element) => {
-const name = $(element).find('.name a span').text();
-const developer = $(element).find('.developer').text();
-const rating = $(element).find('.current-rating').css('width').replace('%', '');
-const imageUrl = $(element).find('.img img').attr('src');
-const link = $(element).find('.name a').attr('href');
-items.push({
-name,
-developer,
-rating: parseFloat(rating) / 20,
-imageUrl,
-link,
-})});
-return items;
-}
-
-async function animeSrc(anime) {
-const response = await axios.get(`https://myanimelist.net/anime.php?q=${anime}&cat=anime`);
-const $ = cheerio.load(response.data);
-const result = [];
-$('tr').each((i, el) => {
-const titleElement = $(el).find('a.hoverinfo_trigger.fw-b.fl-l');
-const desc = $(el).find('div.pt4').text().trim().replace(/read more\.\s*$/i, '');
-const link = titleElement.attr('href');
-const status = $(el).find('td.borderClass.ac.bgColor0').eq(0).text().trim();
-const episode = $(el).find('td.borderClass.ac.bgColor0').eq(1).text().trim();
-const durasi = $(el).find('td.borderClass.ac.bgColor0').eq(2).text().trim();
-const title = titleElement.find('strong').text().trim();
-const img = $(el).find('img').attr('data-src') || $(el).find('img').attr('src');
-if (img && title && durasi && episode && status && link && desc) {
-result.push({
-anime: title,
-link: link,
-status: status,
-description: desc,
-image: img,
-durasi: durasi,
-total_episode: episode
-})}});
-return result;
-}
 
 async function handler(req, res) {
 const { s, text, text1, avatar, username, url } = req.query;
@@ -775,6 +555,34 @@ return res.status(200).json({
 status: true,
 data: response.data.data,
 });
+} else if (s === 'family100') { // FAMILY100
+const response = await axios.get(`https://api.siputzx.my.id/api/games/family100?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'caklontong') { // CAKLONTONG
+const response = await axios.get(`https://api.siputzx.my.id/api/games/caklontong?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'susunkata') { // SUSUNKATA
+const response = await axios.get(`https://api.siputzx.my.id/api/games/susunkata?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
+} else if (s === 'asahotak') { // ASAHOTAK
+const response = await axios.get(`https://api.siputzx.my.id/api/games/asahotak?-`
+);
+return res.status(200).json({
+status: true,
+data: response.data.data,
+});
 
 // CONVERT MENU
 } else if (s === 'tobase64') { // TOBASE64
@@ -916,6 +724,86 @@ const response = await axios.get(`https://api.siputzx.my.id/api/stalk/tiktok?use
 return res.json({
 status: true,
 result: response.data.data,
+});
+
+// QUOTES MENU
+} else if (s === 'qsindiran') { // QSINDIRAN
+const { sindiran } = require('./lib/quotes')
+const quotes = sindiran[Math.floor(Math.random() * sindiran.length)]
+return res.json({
+status: true,
+result: quotes,
+});
+} else if (s === 'qbucin') { // QBUCIN
+const { bucin } = require('./lib/quotes')
+const quotes = bucin[Math.floor(Math.random() * bucin.length)]
+return res.json({
+status: true,
+result: quotes,
+});
+} else if (s === 'qsenja') { // QSENJA
+const { senja } = require('./lib/quotes')
+const quotes = senja[Math.floor(Math.random() * senja.length)]
+return res.json({
+status: true,
+result: quotes,
+});
+} else if (s === 'qfakta') { // QFAKTA
+const { bucin } = require('./lib/quotes')
+const quotes = fakta[Math.floor(Math.random() * fakta.length)]
+return res.json({
+status: true,
+result: quotes,
+});
+
+// CERPEN MENU
+} else if (s === 'cerpen-anak') // CERPEN-ANAK
+const cerpen = await Cerpen('anak')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-cinta') // CERPEN-CINTA
+const cerpen = await Cerpen('cinta')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-galau') // CERPEN-GALAU
+const cerpen = await Cerpen('galau')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-gokil') // CERPEN-GOKIL
+const cerpen = await Cerpen('gokil')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-remaja') // CERPEN-REMAJA
+const cerpen = await Cerpen('remaja')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-rindu') // CERPEN-RINDU
+const cerpen = await Cerpen('rindu')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-sedih') // CERPEN-SEDIH
+const cerpen = await Cerpen('sedih')
+return res.json({
+status: true,
+data: cerpen,
+});
+} else if (s === 'cerpen-sejarah') // CERPEN-SEJARAH
+const cerpen = await Cerpen('sejarah')
+return res.json({
+status: true,
+data: cerpen,
 });
 
 // NSFW AND SFW
