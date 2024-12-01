@@ -749,7 +749,7 @@ status: true,
 result: quotes,
 });
 } else if (s === 'qfakta') { // QFAKTA
-const { bucin } = require('./lib/quotes')
+const { fakta } = require('./lib/quotes')
 const quotes = fakta[Math.floor(Math.random() * fakta.length)]
 return res.json({
 status: true,
