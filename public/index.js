@@ -808,6 +808,70 @@ const features = [
     query: "s=cerpen-sejarah"
   },
   {
+    name: "Cerpen Motivasi",
+    method: "GET",
+    description: "Cerpen/cerpen-motivasi",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-motivasi"
+  },
+  {
+    name: "Cerpen Nasihat",
+    method: "GET",
+    description: "Cerpen/cerpen-nasihat",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-nasihat"
+  },
+  {
+    name: "Cerpen Budaya",
+    method: "GET",
+    description: "Cerpen/cerpen-budaya",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-budaya"
+  },
+  {
+    name: "Cerpen Fantasi",
+    method: "GET",
+    description: "Cerpen/cerpen-fantasi",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-fantasi"
+  },
+  {
+    name: "Cerpen Misteri",
+    method: "GET",
+    description: "Cerpen/cerpen-misteri",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-misteri"
+  },
+  {
+    name: "Cerpen Keluarga",
+    method: "GET",
+    description: "Cerpen/cerpen-keluarga",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-keluarga"
+  },
+  {
+    name: "Cerpen Kehidupan",
+    method: "GET",
+    description: "Cerpen/cerpen-kehidupan",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-kehidupan"
+  },
+  {
+    name: "Cerpen Sastra",
+    method: "GET",
+    description: "Cerpen/cerpen-sastra",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-sastra"
+  },
+  {
     name: "NSFW",
     method: "GET",
     description: "NSFW/nsfw",
