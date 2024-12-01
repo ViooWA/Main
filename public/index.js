@@ -504,6 +504,38 @@ const features = [
     query: "s=tebaktebakan"
   },
   {
+    name: "Family100",
+    method: "GET",
+    description: "Games/family100",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=family100"
+  },
+  {
+    name: "Cak Lontong",
+    method: "GET",
+    description: "Games/caklontong",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=caklontong"
+  },
+  {
+    name: "Susun Kata",
+    method: "GET",
+    description: "Games/susunkata",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=susunkata"
+  },
+  {
+    name: "Asah Otak",
+    method: "GET",
+    description: "Games/asahotak",
+    category: "GAMES",
+    endpoint: "../api",
+    query: "s=asahotak"
+  },
+  {
     name: "To Base64",
     method: "GET",
     description: "Convert/tobase64",
@@ -678,6 +710,102 @@ const features = [
     category: "STALK",
     endpoint: "../api",
     query: "s=stalk-tt&text=mrbeast"
+  },
+  {
+    name: "Quotes Sindiran",
+    method: "GET",
+    description: "Quotes/qsindiran",
+    category: "QUOTES",
+    endpoint: "../api",
+    query: "s=qsindiran"
+  },
+  {
+    name: "Quotes Bucin",
+    method: "GET",
+    description: "Quotes/qbucin",
+    category: "QUOTES",
+    endpoint: "../api",
+    query: "s=qbucin"
+  },
+  {
+    name: "Quotes Senja",
+    method: "GET",
+    description: "Quotes/qsenja",
+    category: "QUOTES",
+    endpoint: "../api",
+    query: "s=qsenja"
+  },
+  {
+    name: "Quotes Fakta",
+    method: "GET",
+    description: "Quotes/qfakta",
+    category: "QUOTES",
+    endpoint: "../api",
+    query: "s=qfakta"
+  },
+  {
+    name: "Cerpen Anak",
+    method: "GET",
+    description: "Cerpen/cerpen-anak",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-anak"
+  },
+  {
+    name: "Cerpen Cinta",
+    method: "GET",
+    description: "Cerpen/cerpen-cinta",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-cinta"
+  },
+  {
+    name: "Cerpen Galau",
+    method: "GET",
+    description: "Cerpen/cerpen-galau",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-galau"
+  },
+  {
+    name: "Cerpen Gokil",
+    method: "GET",
+    description: "Cerpen/cerpen-gokil",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-gokil"
+  },
+  {
+    name: "Cerpen Remaja",
+    method: "GET",
+    description: "Cerpen/cerpen-remaja",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-remaja"
+  },
+  {
+    name: "Cerpen Rindu",
+    method: "GET",
+    description: "Cerpen/cerpen-rindu",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-rindu"
+  },
+  {
+    name: "Cerpen Sedih",
+    method: "GET",
+    description: "Cerpen/cerpen-sedih",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-sedih"
+  },
+  {
+    name: "Cerpen Sejarah",
+    method: "GET",
+    description: "Cerpen/cerpen-sejarah",
+    category: "CERPEN",
+    endpoint: "../api",
+    query: "s=cerpen-sejarah"
   },
   {
     name: "NSFW",
